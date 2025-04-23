@@ -2,8 +2,7 @@ import React, { useRef, useState } from "react";
 import { SectionList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-elements";
 import { brandData } from "../constant/brand";
-import Modal from "react-native-modal";
-import ZaraLogo from "../assets/svg/brand_logo/zara.svg";
+import BrandModal from "../components/BrandModal";
 
 export default function Main() {
   const sectionListRef = useRef<SectionList>(null);
@@ -11,6 +10,7 @@ export default function Main() {
   const [isModalVisible, setModalVisible] = useState(false);
 
   const openModal = (brand: string) => {
+    console.log(brand);
     setSelectedBrand(brand);
     setModalVisible(true);
   };
@@ -46,20 +46,11 @@ export default function Main() {
         />
       </View>
 
-      <Modal
-        isVisible={isModalVisible}
-        onBackdropPress={closeModal}
-        animationIn="slideInUp"
-        animationOut="slideOutDown"
-        backdropTransitionOutTiming={0}
-        style={styles.modal}
-      >
-        <View style={styles.modalContent}>
-          <Text h4>{selectedBrand}</Text>
-          <ZaraLogo width={200} height={200} style={styles.logo} />
-          <Text>여기에 브랜드 상세 정보를 보여줄 수 있어요.</Text>
-        </View>
-      </Modal>
+      <BrandModal
+        isModalOpen={isModalVisible}
+        closeModal={closeModal}
+        selectedBrand={selectedBrand}
+      />
     </>
   );
 }
@@ -90,21 +81,5 @@ const styles = StyleSheet.create({
   sectionText: {
     fontWeight: "bold",
     fontSize: 18,
-  },
-  modal: {
-    justifyContent: "flex-end",
-    margin: 0,
-  },
-  modalContent: {
-    backgroundColor: "white",
-    padding: 20,
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    minHeight: 200,
-  },
-  logo: {
-    width: 200,
-    height: 200,
-    alignSelf: "center",
   },
 });
