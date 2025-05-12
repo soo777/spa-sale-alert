@@ -1,3 +1,9 @@
 export default function Home() {
-  return <h1>SPA Sale Web Admin</h1>;
+  return (
+    <>
+      <div>
+        <h1>SPA Sale Web Admin</h1>
+      </div>
+    </>
+  );
 }
