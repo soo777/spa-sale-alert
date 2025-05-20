@@ -7,8 +7,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getCollection } from "@/lib/db";
-import { Button } from "./ui/button";
 import InsertBrand from "./insertBrand";
+import BrandInfo from "./brandInfo";
 
 export default async function DashboardPage() {
   const brands = await (await getCollection("brands")).find().toArray();
@@ -31,7 +31,7 @@ export default async function DashboardPage() {
               <TableCell>{brand.sale ? "✅" : "❌"}</TableCell>
               <TableCell>{brand.description}</TableCell>
               <TableCell>
-                <Button className="cursor-pointer">상세</Button>
+                <BrandInfo name={brand.name} />
               </TableCell>
             </TableRow>
           ))}
