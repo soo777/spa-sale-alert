@@ -6,12 +6,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getCollection } from "@/lib/db";
 import InsertBrand from "./insertBrand";
 import BrandInfo from "./brandInfo";
 
 export default async function DashboardPage() {
-  const brands = await (await getCollection("brands")).find().toArray();
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/brand`,
+    {
+      cache: "no-store",
+    }
+  );
+  const brands = await res.json();
 
   return (
     <div className="p-4">
