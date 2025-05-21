@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { ThemeProvider } from "react-native-elements";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Main from "./screens/Main";
 
 const theme = {
@@ -16,13 +17,17 @@ const theme = {
   },
 };
 
+const queryClient = new QueryClient();
+
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <SafeAreaView style={styles.container}>
-        <Main />
-      </SafeAreaView>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <SafeAreaView style={styles.container}>
+          <Main />
+        </SafeAreaView>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 
