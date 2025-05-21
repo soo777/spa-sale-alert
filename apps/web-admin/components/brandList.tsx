@@ -25,7 +25,7 @@ export default async function DashboardPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {brands.map((brand: any) => (
+          {brands.map((brand) => (
             <TableRow key={brand._id.toString()}>
               <TableCell>{brand.name}</TableCell>
               <TableCell>{brand.sale ? "✅" : "❌"}</TableCell>
