@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/table";
 import InsertBrand from "./insertBrand";
 import BrandInfo from "./brandInfo";
+import BrandType from "@/type/type";
 
 export default async function DashboardPage() {
   const res = await fetch(
@@ -30,7 +31,7 @@ export default async function DashboardPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {brands.map((brand) => (
+          {brands.map((brand: BrandType) => (
             <TableRow key={brand._id.toString()}>
               <TableCell>{brand.name}</TableCell>
               <TableCell>{brand.sale ? "✅" : "❌"}</TableCell>
