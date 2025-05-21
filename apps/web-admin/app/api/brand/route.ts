@@ -38,19 +38,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "필드 누락" }, { status: 400 });
     }
 
-    // 중복 확인
-    const brands = await getCollection("brands");
-    const existing = await brands.findOne({
-      name: { $regex: new RegExp(`^${name}$`, "i") },
-    });
-
-    if (existing) {
-      return NextResponse.json(
-        { error: "이미 존재하는 브랜드입니다" },
-        { status: 409 }
-      );
-    }
-
     const result = await insertOneToCollection("brands", body);
     return NextResponse.json({ insertedId: result.insertedId });
   } catch (err) {
