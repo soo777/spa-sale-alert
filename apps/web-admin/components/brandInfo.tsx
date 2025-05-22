@@ -11,12 +11,11 @@ import {
   DialogHeader,
 } from "./ui/dialog";
 import { useRef, useState } from "react";
-
-type Brand = { _id: string; name: string; description?: string; url?: string };
+import BrandType from "@/type/type";
 
 export default function BrandInfo({ name }: { name: string }) {
   const [open, setOpen] = useState(false);
-  const [brand, setBrand] = useState<Brand | null>(null);
+  const [brand, setBrand] = useState<BrandType | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const router = useRouter();
 
@@ -47,7 +46,7 @@ export default function BrandInfo({ name }: { name: string }) {
       setOpen(false);
       router.refresh();
     } else {
-      toast(`❌ 오류: ${data.error}`);
+      toast(`❌ 에러: ${data.error}`);
     }
   };
 
@@ -76,14 +75,25 @@ export default function BrandInfo({ name }: { name: string }) {
           </DialogHeader>
 
           <form ref={formRef} onSubmit={insertBrand} className="space-y-2">
+            <label className="text-sm text-gray-500">브랜드명(영문)</label>
             <input
               name="name"
               type="text"
-              placeholder="브랜드명"
+              placeholder="브랜드명(영문)"
               className="w-full border p-2 rounded"
               defaultValue={brand ? brand?.name : ""}
-              readOnly
             />
+
+            <label className="text-sm text-gray-500">브랜드명(한글)</label>
+            <input
+              name="name"
+              type="text"
+              placeholder="브랜드명(한글)"
+              className="w-full border p-2 rounded"
+              defaultValue={brand ? brand?.nameKo : ""}
+            />
+
+            <label className="text-sm text-gray-500">설명</label>
             <input
               name="description"
               type="text"
@@ -91,12 +101,23 @@ export default function BrandInfo({ name }: { name: string }) {
               className="w-full border p-2 rounded"
               defaultValue={brand ? brand?.description : ""}
             />
+
+            <label className="text-sm text-gray-500">홈페이지</label>
             <input
               name="url"
               type="text"
-              placeholder="링크"
+              placeholder="홈페이지"
               className="w-full border p-2 rounded"
               defaultValue={brand ? brand?.url : ""}
+            />
+
+            <label className="text-sm text-gray-500">인스타그램</label>
+            <input
+              name="url"
+              type="text"
+              placeholder="인스타그램"
+              className="w-full border p-2 rounded"
+              defaultValue={brand ? brand?.instagram : ""}
             />
 
             <DialogFooter className="mt-4">

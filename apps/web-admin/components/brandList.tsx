@@ -11,6 +11,9 @@ import BrandInfo from "./brandInfo";
 import BrandType from "@/type/type";
 
 export default async function DashboardPage() {
+  /**
+   * 브랜드 목록 조회
+   */
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/brand`,
     {

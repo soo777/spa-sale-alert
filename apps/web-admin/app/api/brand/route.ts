@@ -79,6 +79,6 @@ export async function PATCH(req: Request) {
     });
   } catch (err) {
     console.error("업데이트 에러:", err);
-    return NextResponse.json({ error: "서버 오류" }, { status: 500 });
+    return NextResponse.json({ error: "서버 에러" }, { status: 500 });
   }
 }

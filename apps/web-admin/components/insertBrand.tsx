@@ -22,17 +22,22 @@ export default function InsertBrand() {
     e.preventDefault();
     const formData = new FormData(formRef.current!);
     const name = formData.get("name") as string;
+    const nameKo = formData.get("nameKo") as string;
     const description = formData.get("description") as string;
     const url = formData.get("url") as string;
+    const instagram = formData.get("instagram") as string;
 
     const res = await fetch("/api/brand", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        id: name,
         name,
+        nameKo,
         sale: false,
         description,
         url,
+        instagram,
       }),
     });
 
@@ -43,7 +48,7 @@ export default function InsertBrand() {
       setOpen(false);
       router.refresh();
     } else {
-      toast(`❌ 오류: ${data.error}`);
+      toast(`❌ 에러: ${data.error}`);
     }
   };
 
@@ -71,7 +76,13 @@ export default function InsertBrand() {
             <input
               name="name"
               type="text"
-              placeholder="브랜드명"
+              placeholder="브랜드명(영문)"
+              className="w-full border p-2 rounded"
+            />
+            <input
+              name="nameKo"
+              type="text"
+              placeholder="브랜드명(한글)"
               className="w-full border p-2 rounded"
             />
             <input
@@ -83,10 +94,15 @@ export default function InsertBrand() {
             <input
               name="url"
               type="text"
-              placeholder="링크"
+              placeholder="홈페이지"
               className="w-full border p-2 rounded"
             />
-
+            <input
+              name="instagram"
+              type="text"
+              placeholder="인스타그램"
+              className="w-full border p-2 rounded"
+            />
             <DialogFooter className="mt-4">
               <DialogClose
                 className="px-4 py-2 bg-gray-200 rounded cursor-pointer"
