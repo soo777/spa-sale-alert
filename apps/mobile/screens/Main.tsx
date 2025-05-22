@@ -1,16 +1,22 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { SectionList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-elements";
-import { brandData } from "../constant/brand";
 import BrandModal from "../components/BrandModal";
+import { useBrands } from "../hooks/useBrand";
+import { makeBrandList } from "../util/utils";
 
 export default function Main() {
   const sectionListRef = useRef<SectionList>(null);
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   const [isModalVisible, setModalVisible] = useState(false);
 
+  const { data: brands } = useBrands();
+  const sectionedBrands = useMemo(() => {
+    if (!brands) return [];
+    return makeBrandList(brands);
+  }, [brands]);
+
   const openModal = (brand: string) => {
-    console.log(brand);
     setSelectedBrand(brand);
     setModalVisible(true);
   };
@@ -25,25 +31,29 @@ export default function Main() {
         <Text h3>Brands</Text>
       </View>
       <View style={styles.container}>
-        <SectionList
-          ref={sectionListRef}
-          sections={brandData}
-          keyExtractor={(item, index) => item + index}
-          initialNumToRender={30}
-          keyboardShouldPersistTaps="handled"
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => openModal(item)}>
-              <View style={styles.item}>
-                <Text style={styles.itemText}>{item}</Text>
+        {sectionedBrands.length > 0 ? (
+          <SectionList
+            ref={sectionListRef}
+            sections={sectionedBrands}
+            keyExtractor={(item, index) => item + index}
+            initialNumToRender={30}
+            keyboardShouldPersistTaps="handled"
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => openModal(item)}>
+                <View style={styles.item}>
+                  <Text style={styles.itemText}>{item}</Text>
+                </View>
+              </TouchableOpacity>
+            )}
+            renderSectionHeader={({ section: { title } }) => (
+              <View style={styles.sectionHeader}>
+                <Text style={styles.sectionText}>{title}</Text>
               </View>
-            </TouchableOpacity>
-          )}
-          renderSectionHeader={({ section: { title } }) => (
-            <View style={styles.sectionHeader}>
-              <Text style={styles.sectionText}>{title}</Text>
-            </View>
-          )}
-        />
+            )}
+          />
+        ) : (
+          <Text>데이터 로드중..</Text>
+        )}
       </View>
 
       <BrandModal
